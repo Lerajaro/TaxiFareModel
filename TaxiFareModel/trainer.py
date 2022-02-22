@@ -7,28 +7,19 @@ from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
 
 class Trainer():
-    def __init__(self):
+    def __init__(self, X, y):
         """
             X: pandas DataFrame
             y: pandas Series
         """
         self.pipeline = None
-        self.df = None
-        self.X = None
-        self.y = None
-
-    def get_clean_df(self):
-        df_tmp = get_data()
-        # clean data
-        df = clean_data(df_tmp)
-        self.y = df.pop("fare_amount")
-        self.X = df
-        del df
-        return self.X, self.y
+        # self.df = None
+        self.X = X
+        self.y = y
         
-    def traintestsplit(self):
-        self.X_train, self.X_test, self.y_train, self.y_test = holdout(self.X, self.y)
-        return self.X_train, self.X_test, self.y_train, self.y_test
+   # def traintestsplit(self):
+   #     self.X_train, self.X_test, self.y_train, self.y_test = holdout(self.X, self.y)
+   #     return self.X_train, self.X_test, self.y_train, self.y_test
 
     def set_pipeline(self):
         """defines the pipeline as a class attribute"""
@@ -56,26 +47,29 @@ class Trainer():
 
     def run(self):
         """set and train the pipeline"""
-        self.model = self.set_pipeline().fit(self.X_train, self.y_train)
+        self.model = self.set_pipeline().fit(self.X, self.y)
         return self.model
 
-    def evaluate(self):
+    def evaluate(self, X_test, y_test):
         """evaluates the pipeline on df_test and return the RMSE"""
-        y_pred = self.model.predict(self.X_test)
-        rmse = compute_rmse(y_pred, self.y_test)
+        y_pred = self.model.predict(X_test)
+        rmse = compute_rmse(y_pred, y_test)
         return rmse
 
 if __name__ == "__main__":
+    # get data
+    df_tmp = get_data()
+    # clean data
+    df = clean_data(df_tmp)
+    y = df.pop("fare_amount")
+    X = df
+    # hold out
+    X_train, X_test, y_train, y_test = holdout(X, y)
     # iniitalize trainer
-    trainer = Trainer()
-    # get clean data
-    trainer.get_clean_df()
-    # set X and y and hold out
-    
-    trainer.traintestsplit()
+    trainer = Trainer(X_train, y_train)
     # train pipeline and model
     trainer.run()
     # evaluate
-    res = trainer.evaluate()
-    print(f"the rmse is {res]")
+    res = trainer.evaluate(X_test, y_test)
+    print(f"the rmse is {res}")
   
