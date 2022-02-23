@@ -1,0 +1,15 @@
+artifact_uri: file:///home/raffael/code/Lerajaro/TaxiFareModel/mlruns/1/2d318eb42a954780a1b7bd96b174d24e/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 2d318eb42a954780a1b7bd96b174d24e
+run_uuid: 2d318eb42a954780a1b7bd96b174d24e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1645542529142
+status: 1
+tags: []
+user_id: unknown
